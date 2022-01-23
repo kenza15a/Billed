@@ -23,5 +23,5 @@ npm run run:dev
 ```
 
 ```
-$ npm run test
+npm run test
 ```
