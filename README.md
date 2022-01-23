@@ -15,4 +15,4 @@ L'application de gestion de notes de frais Billed est pleine de bugs. Corrigez l
 
 - [**Backend**](https://github.com/OpenClassrooms-Student-Center/Billed-app-FR-back)
 - [**Frontend**](https://github.com/OpenClassrooms-Student-Center/Billed-app-FR-Front)
-- [**Dossier technique**](/home/user/Downloads/openClassrooms/Git504_2122_P9 Debuggez et testez un SaaS RH/Public)
+- [**Dossier technique**](https://github.com/git504/Billed/tree/main/Public)
