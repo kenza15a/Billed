@@ -1,6 +1,6 @@
 # Billed
 
-![Logo](/Public/Tools/logo.png)
+![Logo](./Public/Tools/logo.png)
 
 ## Debugging and testing a **SaaS HR system**
 
