@@ -11,9 +11,9 @@ The Billed expense report application is full of bugs.
 ## Deliverables 🚀
 
 1. [Check the codebase out](https://github.com/git504/Billed)
-2. [Check the UI(src/views) & UX(src/containers) files screenshot out](https://git504.github.io/Billed/)
-3. [Check the Jest code coverage report screenshot out](https://git504.github.io/Billed/)
-4. [Read the E2E plan for the employee route](https://git504.github.io/Billed/)
+2. [Check the UI(src/views) & UX(src/containers) files screenshot out](https://github.com/git504/Billed/blob/main/Public/Deliverables/UI%20UX%20files%20screenshot.pdf)
+3. [Check the Jest code coverage report screenshot out](https://github.com/git504/Billed/blob/main/Public/Deliverables/Jest%20code%20coverage%20report%20screenshot.pdf)
+4. [Read the E2E plan for the employee route](https://github.com/git504/Billed/blob/main/Public/Deliverables/End-To-End%20plan%20for%20the%20employee%20route.pdf)
 
 ## Tools 🔧
 
