@@ -1,0 +1,46 @@
+
+---------------------------------
+* TO DO :
+
+Le fameux “Et si” ?
+
+
+
+
+
+
+
+---------------------------------
+* MEMO :
+
+https://jestjs.io/fr/docs/expect
+https://jestjs.io/fr/docs/setup-teardown
+
+npm test || node_modules/.bin/jest
+npm run testCoverage || node_modules/.bin/jest --coverage
+node_modules/.bin/jest --help
+node_modules/.bin/jest --watch
+
+POC = Proof Of Concept
+BDD = Behavior Driven Dev
+TDD = Test Driven Dev
+
+Given  (describe = “Test Suite”)
+When (it...)
+Then () => {}
+And (expect = “matcher” ) 
+
+Jest, Jasmine = UNIT test
+Cypress, Nightwatch = E2E test
+
+STRATEGIE DE TEST = Un document qui va donner les grandes lignes directrices, et préciser quels seront l’environnement de test et les outils de test.
+
+PLAN DE TEST = Un document qui décrit ce qu’il faut et ce qu’il ne faut pas tester, quand et comment il faudra tester et enfin qui fera le test.
+
+
+
+---------------------------------
+* FEEDBACKS :
+
+
+
