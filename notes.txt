@@ -28,7 +28,7 @@ TDD = Test Driven Dev
 Given  (describe = “Test Suite”)
 When (it...)
 Then () => {}
-And (expect = “matcher” ) 
+And (expect = “matcher” )
 
 Jest, Jasmine = UNIT test
 Cypress, Nightwatch = E2E test
@@ -42,5 +42,10 @@ PLAN DE TEST = Un document qui décrit ce qu’il faut et ce qu’il ne faut pas
 ---------------------------------
 * FEEDBACKS :
 
+cd Billed-app-FR-Back
+npm run run:dev
 
-
+cd Billed-app-FR-Front
+npm run test
+http://localhost:5500/Billed-app-FR-Front/
+http://localhost:5500/Billed-app-FR-Front/coverage/lcov-report/
