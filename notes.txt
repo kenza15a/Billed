@@ -13,6 +13,8 @@ Le fameux “Et si” ?
 ---------------------------------
 * MEMO :
 
+UNIT(tiroir), INTEGRATION(tiroir ensemble), E2E(cuisine complete) Test
+
 https://jestjs.io/fr/docs/expect
 https://jestjs.io/fr/docs/setup-teardown
 
@@ -24,6 +26,7 @@ node_modules/.bin/jest --watch
 POC = Proof Of Concept
 BDD = Behavior Driven Dev
 TDD = Test Driven Dev
+CI = Continuous Integration
 
 Given  (describe = “Test Suite”)
 When (it...)
@@ -49,3 +52,9 @@ cd Billed-app-FR-Front
 npm run test
 http://localhost:5500/Billed-app-FR-Front/
 http://localhost:5500/Billed-app-FR-Front/coverage/lcov-report/
+
+utilisateur : admin@test.tld
+mot de passe : admin
+
+utilisateur : employee@test.tld
+mot de passe : employee
