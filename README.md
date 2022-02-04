@@ -30,6 +30,7 @@ To implement the Units and integration tests, the [Jest framework](https://jestj
 
 - UI(src/views)
   ![UI(src/views)](./Public/Tools/logoJest.png)
+
 - UX(src/containers)
   ![UX(src/containers)](./Public/Tools/logoJest.png)
 
