@@ -28,10 +28,8 @@ To implement the Units and integration tests, the [Jest framework](https://jestj
 
 3. [Check the UI(src/views) & UX(src/containers) files screenshot out](https://github.com/git504/Billed/blob/main/Public/Deliverables/UI%20UX%20files%20screenshot.pdf)
 
-- UI(src/views)
+- UI(src/views) & UX(src/containers)
   ![UI(src/views)](./Public/Tools/logoJest.png)
-
-- UX(src/containers)
   ![UX(src/containers)](./Public/Tools/logoJest.png)
 
 ---
