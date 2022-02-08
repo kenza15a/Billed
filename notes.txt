@@ -1,14 +1,7 @@
-
 ---------------------------------
 * TO DO :
 
 Le fameux “Et si” ?
-
-
-
-
-
-
 
 ---------------------------------
 * MEMO :
@@ -23,15 +16,18 @@ npm run testCoverage || node_modules/.bin/jest --coverage
 node_modules/.bin/jest --help
 node_modules/.bin/jest --watch
 
+// Pour régénérer le snapshot
+node_modules/.bin/jest -u
+
 POC = Proof Of Concept
 BDD = Behavior Driven Dev
 TDD = Test Driven Dev
 CI = Continuous Integration
+QA = Quality Assurance
 
 Given  (describe = “Test Suite”)
 When (it...)
-Then () => {}
-And (expect = “matcher” )
+Then () => {}, And (expect = “matcher” )
 
 Jest, Jasmine = UNIT test
 Cypress, Nightwatch = E2E test
@@ -43,12 +39,13 @@ PLAN DE TEST = Un document qui décrit ce qu’il faut et ce qu’il ne faut pas
 
 
 ---------------------------------
-* FEEDBACKS :
+* CDES :
 
 cd Billed-app-FR-Back
 npm run run:dev
 
 cd Billed-app-FR-Front
+live-server
 npm run test
 http://localhost:5500/Billed-app-FR-Front/
 http://localhost:5500/Billed-app-FR-Front/coverage/lcov-report/
