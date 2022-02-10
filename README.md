@@ -21,7 +21,7 @@ To implement the Units and integration tests, the [Jest framework](https://jestj
 
 Coverage ratio : at least 80% (unit & integration tests).
 
-1. [Read the E2E plan for the employee route](https://github.com/git504/Billed/blob/main/Public/Deliverables/End-To-End%20plan%20for%20the%20employee%20route.pdf)
+1. [First, read the E2E plan for the employee route](https://github.com/git504/Billed/blob/main/Public/Deliverables/End-To-End%20plan%20for%20the%20employee%20route.pdf)
 
 2. [Check the Jest code coverage report screenshot out](https://github.com/git504/Billed/blob/main/Public/Deliverables/Jest%20code%20coverage%20report%20screenshot.pdf)
 
