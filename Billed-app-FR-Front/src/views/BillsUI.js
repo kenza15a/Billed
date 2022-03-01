@@ -19,8 +19,16 @@ const row = (bill) => {
     `;
 };
 
+// architecture MVC model view controllers BUG.1
 const rows = (data) => {
-  return data && data.length ? data.map((bill) => row(bill)).join("") : "";
+  const sortedDataByDate =
+    data && data.length > 0
+      ? data.sort((a, b) => new Date(b.date) - new Date(a.date))
+      : "";
+
+  return data && data.length
+    ? sortedDataByDate.map((bill) => row(bill)).join("")
+    : "";
 };
 
 export default ({ data: bills, loading, error }) => {
