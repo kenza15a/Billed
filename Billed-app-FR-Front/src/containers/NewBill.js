@@ -16,18 +16,76 @@ export default class NewBill {
     this.fileName = null;
     this.billId = null;
     new Logout({ document, localStorage, onNavigate });
+    this.type = "";
   }
   handleChangeFile = (e) => {
     e.preventDefault();
+
     const file = this.document.querySelector(`input[data-testid="file"]`)
       .files[0];
     const filePath = e.target.value.split(/\\/g);
     const fileName = filePath[filePath.length - 1];
+
+    // DEBUG ->
+    // verification MIME type of the file ======================
+
+    let fileReader = new FileReader();
+    fileReader.onloadend = function (e) {
+      // binary result
+      //ArrayBuffer est l’objet central, le centre de tout, les données binaires brutes.
+      console.log(e.target.result);
+
+      // Traite le buffer en une séquence d'entiers de 8 bits, creation d'un sous tableau de 4 element correpondant au MIME.
+      let arr = new Uint8Array(e.target.result).subarray(0, 4);
+      console.log(arr);
+      let header = "";
+      let type;
+
+      // binary to hex (16), les 4 premier represente l'extention
+      for (let i = 0; i < arr.length; i++) {
+        header += arr[i].toString(16);
+        console.log(header);
+      }
+      switch (header) {
+        //hex to text avec le switch
+        case "89504e47":
+          type = "image/png";
+          break;
+        case "ffd8ffe0":
+        case "ffd8ffe1":
+        case "ffd8ffe2":
+        case "ffd8ffe3":
+        case "ffd8ffe8":
+          type = "image/jpeg";
+          break;
+        default:
+          type = "unknown";
+          break;
+      }
+
+      if (type != "image/jpeg" && type != "image/png") {
+        document.querySelector(`input[data-testid="file"]`).value = "";
+        alert("invalid Image");
+
+        console.log(type);
+        this.type = type;
+        console.log(this.type);
+      } else {
+        this.type = type;
+        console.log(this.type);
+      }
+    };
+
+    fileReader.readAsArrayBuffer(file);
+
+    //=========================================================
+
     const formData = new FormData();
     const email = JSON.parse(localStorage.getItem("user")).email;
     formData.append("file", file);
     formData.append("email", email);
 
+    // if(this.store){
     this.store
       .bills()
       .create({
@@ -37,19 +95,17 @@ export default class NewBill {
         },
       })
       .then(({ fileUrl, key }) => {
-        console.log(fileUrl);
+        // console.log(fileUrl)
         this.billId = key;
         this.fileUrl = fileUrl;
         this.fileName = fileName;
       })
       .catch((error) => console.error(error));
+    // }
   };
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(
-      'e.target.querySelector(`input[data-testid="datepicker"]`).value',
-      e.target.querySelector(`input[data-testid="datepicker"]`).value
-    );
+    // console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)
     const email = JSON.parse(localStorage.getItem("user")).email;
     const bill = {
       email,
@@ -59,6 +115,8 @@ export default class NewBill {
         e.target.querySelector(`input[data-testid="amount"]`).value
       ),
       date: e.target.querySelector(`input[data-testid="datepicker"]`).value,
+      date_number: e.target.querySelector(`input[data-testid="datepicker"]`)
+        .value,
       vat: e.target.querySelector(`input[data-testid="vat"]`).value,
       pct:
         parseInt(e.target.querySelector(`input[data-testid="pct"]`).value) ||
@@ -72,7 +130,7 @@ export default class NewBill {
     this.updateBill(bill);
     this.onNavigate(ROUTES_PATH["Bills"]);
   };
-
+  /* istanbul ignore next */
   // not need to cover this function by tests
   updateBill = (bill) => {
     if (this.store) {

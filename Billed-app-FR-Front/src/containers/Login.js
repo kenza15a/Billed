@@ -46,9 +46,9 @@ export default class Login {
       });
   };
 
+  // changes here ->
   handleSubmitAdmin = (e) => {
     e.preventDefault();
-    // alert("hello");
     const user = {
       type: "Admin",
       email: e.target.querySelector(`input[data-testid="admin-email-input"]`)
