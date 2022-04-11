@@ -29,19 +29,23 @@ export default class NewBill {
     // DEBUG ->
     // verification MIME type of the file ======================
 
+// ? The TextDecoder interface represents a decoder for a specific text encoding, such as UTF-8, ISO-8859-2, KOI8-R, GBK, etc. A decoder takes a stream of bytes as input and emits a stream of code points.
+
+
+
     let fileReader = new FileReader();
     fileReader.onloadend = function (e) {
       // binary result
-      //ArrayBuffer est l’objet central, le centre de tout, les données binaires brutes.
+      //ArrayBuffer est l’objet central, le centre de tout, les données binaires brutes. 1 UNICODE = 1 GRAPHEME
       console.log(e.target.result);
 
-      // Traite le buffer en une séquence d'entiers de 8 bits, creation d'un sous tableau de 4 element correpondant au MIME.
+      // ici on traite le buffer en une séquence d'entiers de 8 bits, creation d'un sous tableau de 4 element correpondant au MIME. 
       let arr = new Uint8Array(e.target.result).subarray(0, 4);
       console.log(arr);
       let header = "";
       let type;
 
-      // binary to hex (16), les 4 premier represente l'extention
+      // binary to hex (16) , les 4 premier represente l'extention
       for (let i = 0; i < arr.length; i++) {
         header += arr[i].toString(16);
         console.log(header);
