@@ -39,7 +39,7 @@ export default class NewBill {
       //ArrayBuffer est l’objet central, le centre de tout, les données binaires brutes. 1 UNICODE = 1 GRAPHEME
       console.log(e.target.result);
 
-      // ici on traite le buffer en une séquence d'entiers de 8 bits, creation d'un sous tableau de 4 element correpondant au MIME. 
+      // ici on traite le buffer en une séquence d'entiers de 8 bits, creation d'un sous tableau de 4 element correpondant au MIME.
       let arr = new Uint8Array(e.target.result).subarray(0, 4);
       console.log(arr);
       let header = "";

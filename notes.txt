@@ -26,8 +26,8 @@ CI = Continuous Integration
 QA = Quality Assurance
 
 Given  (describe = “Test Suite”)
-When (it...)
-Then () => {}, And (expect = “matcher” )
+When (it ) Par exemple,  it(‘should return something’)
+Then expect ...(“matcher”)  expect()  va vous permettre d'exécuter la fonction et de stocker la valeur de retour de cette dernière.
 
 Jest, Jasmine = UNIT test
 Cypress, Nightwatch = E2E test
