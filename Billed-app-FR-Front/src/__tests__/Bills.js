@@ -15,7 +15,7 @@ import Router from "../app/Router.js";
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
-    it("should  highlighte the bill icon in vertical layout ", async () => {
+    it("should  highlight the bill icon in vertical layout ", async () => {
       store.bills = () => ({ get: jest.fn().mockResolvedValue() });
 
       const user = JSON.stringify({ type: "Employee" });
@@ -112,6 +112,8 @@ describe("When Im on a bill & I click on the icon eye", () => {
       userEvent.click(icon);
     });
     // check methode is called
+    expect(() => handleClickIconEye()).toThrow();
+    expect(() => handleClickIconEye()).toThrow(Error);
     expect(handleClickIconEye).toHaveBeenCalled();
     // check Modal opened by searching for its ID
     const modale = document.getElementById("modaleFile");
