@@ -7,24 +7,47 @@ import BillsUI from "../views/BillsUI.js";
 import Bills from "../containers/Bills.js";
 import { screen } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
-import { ROUTES } from "../constants/routes";
+import { ROUTES_PATH, ROUTES } from "../constants/routes";
 import { localStorageMock } from "../__mocks__/localStorage.js";
-import { bills } from "../fixtures/bills";
+import store from "../__mocks__/store.js";
+import { bills } from "../fixtures/bills.js";
+import Router from "../app/Router.js";
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
-    it("should highlight the bill icon in vertical layout", () => {
-      const html = BillsUI({ data: bills });
-      document.body.innerHTML = html;
+    it("should  highlighte the bill icon in vertical layout ", async () => {
+      store.bills = () => ({ get: jest.fn().mockResolvedValue() });
 
-      //to-do write expect expression
-      const icone1bg = $("#layout-icon1").css("background-color");
-      const layout1bg = $(".vertical-navbar").css("background-color");
-      expect(icone1bg === layout1bg).toBeFalsy();
-      expect(icone1bg === layout1bg).not.toBeTruthy();
+      const user = JSON.stringify({ type: "Employee" });
+      window.localStorage.setItem("user", user);
+
+      const pathname = ROUTES_PATH["Bills"];
+      Object.defineProperty(window, "location", {
+        value: {
+          hash: pathname,
+        },
+      });
+
+      document.body.innerHTML = `<div id="root"></div>`;
+      Router();
+
+      const icon = screen.getByTestId("icon-window");
+      expect(icon.classList.contains("active-icon")).toBeTruthy();
     });
 
-    it("should be ordered the bills from earliest to latest", () => {
+    it("should show the loader before the tickets are displayed", () => {
+      const html = BillsUI({ loading: true });
+      document.body.innerHTML = html;
+      expect(screen.getAllByText("Loading...")).toBeTruthy();
+    });
+
+    it("should appear an error message if the tickets can't be displayed", () => {
+      const html = BillsUI({ error: "some error message" });
+      document.body.innerHTML = html;
+      expect(screen.getAllByText("Erreur")).toBeTruthy();
+    });
+
+    it("should ordered the bills from earliest to latest", () => {
       const html = BillsUI({ data: bills });
       document.body.innerHTML = html;
       const dates = screen
@@ -53,75 +76,80 @@ describe("Given I am connected as an employee", () => {
 // getByText
 
 // UNIT TEST 1 BILLS
-describe("Given I am connected as an employee", () => {
-  describe("When I click on the showIcon : #icon-eye", () => {
-    it("should open the modal window to view the image ", () => {
-      Object.defineProperty(window, "localStorage", {
-        value: localStorageMock,
-      });
-      window.localStorage.setItem(
-        "user",
-        JSON.stringify({
-          type: "Employee",
-        })
-      );
-      const html = BillsUI({ data: bills });
-      document.body.innerHTML = html;
-      const onNavigate = (pathname) => {
-        document.body.innerHTML = ROUTES({ pathname });
-      };
-      const store = null;
-      const myBills = new Bills({
-        document,
-        onNavigate,
-        store,
-        bills,
-        localStorage: window.localStorage,
-      });
-      const eye = screen.getAllByTestId("icon-eye");
-      const handleClickIconEye = jest.fn(myBills.handleClickIconEye(eye[0]));
-      eye[0].addEventListener("click", handleClickIconEye);
-      userEvent.click(eye[0]);
-      expect(handleClickIconEye).toBeDefined();
-      expect(handleClickIconEye).toHaveBeenCalled();
-      const modale = screen.getByTestId("modaleFileEmploee");
-      expect(modale).toBeVisible();
+describe("When Im on a bill & I click on the icon eye", () => {
+  test("Then A modal should open", () => {
+    // set localstorage to mockstorage & user to employee
+    Object.defineProperty(window, "localStorage", {
+      value: localStorageMock,
     });
-  });
+    window.localStorage.setItem("user", JSON.stringify({ type: "Employee" }));
+    const onNavigate = (pathname) => {
+      document.body.innerHTML = ROUTES({ pathname });
+    };
+    // place UI in DOM
+    const html = BillsUI({ data: bills });
+    document.body.innerHTML = html;
 
-  // UNIT TEST 2 BILLS
-  describe("When I click on the button 'Nouvelle note de frais'", () => {
-    it("should open a new page 'Envoyer une note de frais' ", () => {
-      Object.defineProperty(window, "localStorage", {
-        value: localStorageMock,
-      });
-      window.localStorage.setItem(
-        "user",
-        JSON.stringify({
-          type: "Employee",
-        })
-      );
-      const html = BillsUI({ data: bills });
-      document.body.innerHTML = html;
-      const onNavigate = (pathname) => {
-        document.body.innerHTML = ROUTES({ pathname });
-      };
-      const store = null;
-      const myBills = new Bills({
-        document,
-        onNavigate,
-        store,
-        bills,
-        localStorage: window.localStorage,
-      });
-      const button = screen.getByTestId("btn-new-bill");
-      const handleClickNewBill = jest.fn(myBills.handleClickNewBill);
-      button.addEventListener("click", handleClickNewBill);
-      userEvent.click(button);
-      expect(handleClickNewBill).toBeDefined();
-      expect(handleClickNewBill).toHaveBeenCalled();
-      expect(screen.getByText("Envoyer une note de frais")).toBeTruthy();
+    // declare firestore
+    const firestore = null;
+    // define bills
+    const billItem = new Bills({
+      document,
+      onNavigate,
+      firestore,
+      localStorage: window.localStorage,
     });
+    // mock bootstrap modal function (see P9 sources folder)
+    $.fn.modal = jest.fn();
+    // mock methode handleClickIconEye
+    const handleClickIconEye = jest.fn(billItem.handleClickIconEye);
+    // find eye icon buttons in DOM
+    const iconEye = screen.getAllByTestId("icon-eye");
+    // add event listeners to eye icons
+    iconEye.forEach((icon) => {
+      icon.addEventListener("click", (e) => handleClickIconEye(icon));
+      // mimic user interaction
+      userEvent.click(icon);
+    });
+    // check methode is called
+    expect(handleClickIconEye).toHaveBeenCalled();
+    // check Modal opened by searching for its ID
+    const modale = document.getElementById("modaleFile");
+    expect(modale).toBeTruthy();
+  });
+});
+
+// UNIT TEST 2 BILLS
+describe("When I click on New bill button", () => {
+  test("Then It should renders NewBill page", () => {
+    Object.defineProperty(window, "localStorage", {
+      value: localStorageMock,
+    });
+    const user = JSON.stringify({
+      type: "Employee",
+    });
+    window.localStorage.setItem("user", user);
+
+    const html = BillsUI({ data: [] });
+    document.body.innerHTML = html;
+
+    const onNavigate = (pathname) => {
+      document.body.innerHTML = ROUTES({ pathname });
+    };
+    const store = null;
+    const billsClass = new Bills({
+      document,
+      onNavigate,
+      store,
+      localStorage: window.localStorage,
+    });
+
+    const handleClickNewBill = jest.fn(billsClass.handleClickNewBill);
+    const newBillButton = screen.getByTestId("btn-new-bill");
+    newBillButton.addEventListener("click", handleClickNewBill);
+    userEvent.click(newBillButton);
+    expect(handleClickNewBill).toHaveBeenCalled();
+    expect(screen.getByText("Envoyer une note de frais")).toBeTruthy();
   });
 });
 
@@ -134,3 +162,33 @@ describe("Given I am connected as an employee", () => {
 // afterEach(() => {}); ?
 // beforeAll()
 // afterAll()
+
+// test d'intégration GET
+describe("Given I am a user connected as Employee", () => {
+  describe("When I navigate to Bills", () => {
+    test("fetches bills from mock API GET", async () => {
+      const getSpy = jest.spyOn(store, "get");
+      const bills = await store.get();
+      expect(getSpy).toHaveBeenCalledTimes(1);
+      expect(bills.data.length).toBe(4);
+    });
+    test("fetches bills from an API and fails with 404 message error", () => {
+      store.get.mockImplementationOnce(() =>
+        Promise.reject(new Error("Erreur 404"))
+      );
+      const html = BillsUI({ error: "Erreur 404" });
+      document.body.innerHTML = html;
+      const message = screen.getByText(/Erreur 404/);
+      expect(message).toBeTruthy();
+    });
+    test("fetches messages from an API and fails with 500 message error", () => {
+      store.get.mockImplementationOnce(() =>
+        Promise.reject(new Error("Erreur 500"))
+      );
+      const html = BillsUI({ error: "Erreur 500" });
+      document.body.innerHTML = html;
+      const message = screen.getByText(/Erreur 500/);
+      expect(message).toBeTruthy();
+    });
+  });
+});

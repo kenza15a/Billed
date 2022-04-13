@@ -31,7 +31,7 @@ Coverage ratio : at least 80% (unit & integration tests).
 3. [Check the UI(src/views) & UX(src/containers) files screenshot out](https://github.com/git504/Billed/blob/main/Public/Deliverables/UI%20UX%20files%20screenshot.pdf)
 
 - UI(src/views) & UX(src/containers)
-  ![UI(src/views)](./Public/Tools/logoJest.png)
+  ![UI(src/views)](./Public/Deliverables/srcviews.png "tests, VIEWS")
   ![UX(src/containers)](./Public/Tools/logoJest.png)
 
 ---
