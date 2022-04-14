@@ -4,6 +4,7 @@
 
 import "@testing-library/jest-dom/extend-expect";
 import { screen } from "@testing-library/dom";
+import userEvent from "@testing-library/user-event";
 
 import store from "../__mocks__/store.js";
 import BillsUI from "../views/BillsUI.js";
@@ -29,6 +30,7 @@ describe("Given I am connected as an employee", () => {
       document.body.innerHTML = `<div id="root"></div>`;
       Router();
     });
+
     it("should require the input type date", () => {
       const inputDate = screen.getByTestId("datepicker");
       expect(inputDate).toBeRequired();
@@ -37,7 +39,7 @@ describe("Given I am connected as an employee", () => {
       const inputAmount = screen.getByTestId("amount");
       expect(inputAmount).toBeRequired();
     });
-    it("should require the input type pct", () => {
+    it("should require the input type number pct", () => {
       const inputPct = screen.getByTestId("pct");
       expect(inputPct).toBeRequired();
     });
@@ -46,7 +48,43 @@ describe("Given I am connected as an employee", () => {
       expect(inputfile).toBeRequired();
     });
   });
+
+  describe("When I do not fill fields && I click on submit button", () => {
+    it("should renders NewBill original page", () => {
+      const inputName = screen.getByTestId("expense-name");
+      expect(inputName.getAttribute("placeholder")).toBe("Vol Paris Londres");
+      expect(inputName.value).toBe("");
+
+      const inputDate = screen.getByTestId("datepicker");
+      expect(inputDate.value).toBe("");
+
+      const inputAmount = screen.getByTestId("amount");
+      expect(inputAmount.getAttribute("placeholder")).toBe("348");
+      expect(inputAmount.value).toBe("");
+
+      const inputVat = screen.getByTestId("vat");
+      expect(inputVat.getAttribute("placeholder")).toBe("70");
+      expect(inputVat.value).toBe("");
+
+      const inputPct = screen.getByTestId("pct");
+      expect(inputPct.getAttribute("placeholder")).toBe("20");
+      expect(inputPct.value).toBe("");
+
+      const inputComment = screen.getByTestId("commentary");
+      expect(inputComment.value).toBe("");
+
+      const inputFile = screen.getByTestId("file");
+      expect(inputFile.value).toBe("");
+
+      const form = screen.getByTestId("form-new-bill");
+      userEvent.click(form);
+      expect(screen.getByTestId("form-new-bill")).toBeTruthy();
+    });
+  });
 });
+
+// next checking submit btn formData
+// next checking files
 
 
 

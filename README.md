@@ -23,14 +23,17 @@ Coverage ratio : at least 80% (unit & integration tests).
 
 1. [First, read the E2E plan for the employee route](https://github.com/git504/Billed/blob/main/Public/Deliverables/End-To-End%20plan%20for%20the%20employee%20route.pdf)
 
-2. Check the Jest code coverage report screenshot out
+2. Check the Jest code **coverage** report screenshot
 
-  ![Coverage report](./Public/Tools/logoJest.png)
+![Coverage report](./Public/Tools/logoJest.png "tests, coverage report")
 
-3. Check the UI(src/views) & UX(src/containers) files screenshot out
+3. Check the **UI-views** screenshot
 
-  ![UI(src/views)](./Public/Deliverables/srcviews.png "tests, VIEWS")
-  ![UX(src/containers)](./Public/Tools/logoJest.png)
+![UI(src/views)](./Public/Deliverables/srcviews.png "tests, src/views")
+
+4.  Check the **UX-containers** screenshot
+
+![UX(src/containers)](./Public/Tools/logoJest.png "tests, src/containers")
 
 ---
 
