@@ -41,6 +41,7 @@ describe("Given I am connected as an employee", () => {
     });
 
     it("should  highlight the bill icon in vertical layout ", () => {
+      // initialise le body
       document.body.innerHTML = `<div id="root"></div>`;
       Router();
       const icon = screen.getByTestId("icon-window");
@@ -54,12 +55,14 @@ describe("Given I am connected as an employee", () => {
     });
 
     it("should appear an error message if the tickets can't be displayed", () => {
+      // initialise le body
       const html = BillsUI({ error: "some error message" });
       document.body.innerHTML = html;
       expect(screen.getAllByText("Erreur")).toBeTruthy();
     });
 
     it("should ordered the bills from earliest to latest", () => {
+      // initialise le body
       const html = BillsUI({ data: bills });
       document.body.innerHTML = html;
       const dates = screen
@@ -86,12 +89,13 @@ describe("When Im on a bill & I click on the icon eye 👁️", () => {
     const onNavigate = (pathname) => {
       document.body.innerHTML = ROUTES({ pathname });
     };
-    // place UI in DOM
+    // initialise le body
     const html = BillsUI({ data: bills });
     document.body.innerHTML = html;
 
     // declare firestore
     const firestore = null;
+
     // define bills
     const billItem = new Bills({
       document,
@@ -123,7 +127,7 @@ describe("When Im on a bill & I click on the icon eye 👁️", () => {
 
 // UNIT TEST New bill button
 describe("When I click on New bill button", () => {
-  test("Then It should renders NewBill page", () => {
+  it("should renders NewBill page", () => {
     Object.defineProperty(window, "localStorage", {
       value: localStorageMock,
     });
@@ -158,26 +162,28 @@ describe("When I click on New bill button", () => {
 // test d'intégration GET
 describe("Given I am a user connected as Employee", () => {
   describe("When I navigate to Bills", () => {
-    test("fetches bills from mock API GET", async () => {
+    it("should fetches the bills from mock API GET", async () => {
       const getSpy = jest.spyOn(store, "get");
       const bills = await store.get();
       expect(getSpy).toHaveBeenCalledTimes(1);
       expect(bills.data.length).toBe(4);
     });
-    test("fetches bills from an API and fails with 404 message error", () => {
+    it("should fetches the bills from API and fails with 404 message error", () => {
       // Lorsque vous devez recréer un comportement complexe d'une fonction simulée, de sorte que plusieurs appels de fonction produisent des résultats différents, utilisez la méthode mockImplementationOnce :
       store.get.mockImplementationOnce(() =>
         Promise.reject(new Error("Erreur 404"))
       );
+      // initialise le body
       const html = BillsUI({ error: "Erreur 404" });
       document.body.innerHTML = html;
       const message = screen.getByText(/Erreur 404/);
       expect(message).toBeTruthy();
     });
-    test("fetches messages from an API and fails with 500 message error", () => {
+    it("should fetches the messages from API and fails with 500 message error", () => {
       store.get.mockImplementationOnce(() =>
         Promise.reject(new Error("Erreur 500"))
       );
+      // initialise le body
       const html = BillsUI({ error: "Erreur 500" });
       document.body.innerHTML = html;
       const message = screen.getByText(/Erreur 500/);
