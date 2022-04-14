@@ -70,4 +70,11 @@ export default {
       ],
     });
   },
+  post: (bills, newBill) => {
+    bills.data.push(newBill);
+    // bills(4) + newBill(1) = 5
+    return Promise.resolve({
+      data: bills.data,
+    });
+  },
 };
