@@ -25,7 +25,7 @@ Coverage ratio : at least 80% (unit & integration tests).
 
 2. Check the Jest code **coverage** report screenshot
 
-![Coverage report](./Public/Tools/logoJest.png "tests, coverage report")
+![Coverage report](./Public/Deliverables/allfiles.png "tests, coverage report")
 
 3. Check the **UI-views** screenshot
 
@@ -33,7 +33,7 @@ Coverage ratio : at least 80% (unit & integration tests).
 
 4.  Check the **UX-containers** screenshot
 
-![UX(src/containers)](./Public/Tools/logoJest.png "tests, src/containers")
+![UX(src/containers)](./Public/Deliverables/containers.png "tests, src/containers")
 
 ---
 

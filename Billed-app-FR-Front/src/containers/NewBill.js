@@ -32,9 +32,12 @@ export default class NewBill {
     // ? The TextDecoder interface represents a decoder for a specific text encoding, such as UTF-8, ISO-8859-2, KOI8-R, GBK, etc. A decoder takes a stream of bytes as input and emits a stream of code points.
 
     let fileReader = new FileReader();
+    // pour faire passer les tests
+    let that = this
+
     fileReader.onloadend = function (e) {
       // binary result
-      //ArrayBuffer est l’objet central, le centre de tout, les données binaires brutes. 1 UNICODE = 1 GRAPHEME
+      //ArrayBuffer est l’objet central, le centre de tout, les données binaires brutes "byte". 1 UNICODE = 1 GRAPHEME
       console.log(e.target.result);
 
       // ici on traite le buffer en une séquence d'entiers de 8 bits, creation d'un sous tableau de 4 element correpondant au MIME.
@@ -70,11 +73,11 @@ export default class NewBill {
         alert("invalid Image");
 
         console.log(type);
-        this.type = type;
-        console.log(this.type);
+        that.type = type;
+
       } else {
-        this.type = type;
-        console.log(this.type);
+        that.type = type;
+        console.log(that.type);
       }
     };
 

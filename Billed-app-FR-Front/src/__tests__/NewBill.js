@@ -3,13 +3,15 @@
  */
 
 import "@testing-library/jest-dom/extend-expect";
-import { screen } from "@testing-library/dom";
+import { fireEvent, screen } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 
-import store from "../__mocks__/store.js";
-import BillsUI from "../views/BillsUI.js";
-import { ROUTES_PATH } from "../constants/routes";
+import firestore from "../__mocks__/store.js";
+import { Store } from "../__mocks__/store2.js";
 import Router from "../app/Router.js";
+import { ROUTES, ROUTES_PATH } from "../constants/routes";
+import NewBill from "../containers/NewBill.js";
+import BillsUI from "../views/BillsUI.js";
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on NewBill Page", () => {
@@ -81,12 +83,72 @@ describe("Given I am connected as an employee", () => {
       expect(screen.getByTestId("form-new-bill")).toBeTruthy();
     });
   });
+
+  describe("When I select the file", () => {
+    it("should not upload the file when the file is wrong && handleChangeFile function is called", async () => {
+      const onNavigate = (pathname) => {
+        document.body.innerHTML = ROUTES({ pathname });
+      };
+
+      let store = new Store();
+
+      const myNewBill = new NewBill({
+        document,
+        onNavigate,
+        store,
+        localStorage: window.localStorage,
+      });
+
+      const blob = new Blob(["text"], { type: "image/txt" });
+      const file = new File([blob], "file.txt", { type: "image/txt" });
+      const inputFile = screen.getByTestId("file");
+      const handleChangeFile = jest.fn((e) => myNewBill.handleChangeFile(e));
+      inputFile.addEventListener("change", handleChangeFile);
+      fireEvent.change(inputFile, {
+        target: {
+          files: [file],
+        },
+      });
+
+      const aSecond = (second) =>
+        new Promise((resolve) => setTimeout(resolve, second));
+      await aSecond(1000);
+
+      expect(handleChangeFile).toHaveBeenCalledTimes(1);
+      expect(myNewBill.type).toBe("unknown");
+    });
+
+    it("should use the accepted files formats", async () => {
+      const onNavigate = (pathname) => {
+        document.body.innerHTML = ROUTES({ pathname });
+      };
+      let store = new Store();
+      const myNewBill = new NewBill({
+        document,
+        onNavigate,
+        store,
+        localStorage: window.localStorage,
+      });
+      // byte for PNG (89 50 4E 47) in decimal number system
+      let obj = new Uint8Array([137, 80, 78, 71]);
+      //blobs (Binary Large Objects)
+      const blob = new Blob([obj], { type: "image/png" });
+      const file = new File([blob], "file.png", { type: "image/png" });
+      const inputFile = screen.getByTestId("file");
+      const handleChangeFile = jest.fn((e) => myNewBill.handleChangeFile(e));
+      inputFile.addEventListener("change", handleChangeFile);
+      fireEvent.change(inputFile, {
+        target: {
+          files: [file],
+        },
+      });
+      const aSecond = (second) =>
+        new Promise((resolve) => setTimeout(resolve, second));
+      await aSecond(1000);
+      expect(myNewBill.type).toBe("image/png");
+    });
+  });
 });
-
-// next checking submit btn formData
-// next checking files
-
-
 
 // test d'intégration POST
 describe("Given I am connected as an employee", () => {
@@ -95,8 +157,8 @@ describe("Given I am connected as an employee", () => {
     afterEach(jest.clearAllMocks);
     it("should add a new bill to mock API POST", async () => {
       //jest.spyOn(object, methodName)
-      const getSpyBills = jest.spyOn(store, "get");
-      const billsData = await store.get();
+      const getSpyBills = jest.spyOn(firestore, "get");
+      const billsData = await firestore.get();
       const bill = {
         id: "azerty3000",
         status: "pending",
@@ -113,8 +175,8 @@ describe("Given I am connected as an employee", () => {
         fileUrl: "https://test-storage-billable.jpg",
       };
       //jest.spyOn(object, methodName)
-      const getSpyAddBill = jest.spyOn(store, "post");
-      const addedBill = await store.post(billsData, bill);
+      const getSpyAddBill = jest.spyOn(firestore, "post");
+      const addedBill = await firestore.post(billsData, bill);
 
       expect(getSpyBills).toHaveBeenCalledTimes(1);
       expect(getSpyAddBill).toHaveBeenCalledTimes(1);
@@ -124,7 +186,7 @@ describe("Given I am connected as an employee", () => {
     // same a bills.js
     it("should add a bill to API and fails with 404 message error", async () => {
       // écrase la fonction originale addedBill
-      store.post.mockImplementationOnce(() =>
+      firestore.post.mockImplementationOnce(() =>
         Promise.reject(new Error("Erreur 404"))
       );
       // initialise le body
@@ -135,7 +197,7 @@ describe("Given I am connected as an employee", () => {
     });
 
     it("should add a bill to API and fails with 500 message error", async () => {
-      store.post.mockImplementationOnce(() =>
+      firestore.post.mockImplementationOnce(() =>
         Promise.reject(new Error("Erreur 500"))
       );
       // initialise le body
